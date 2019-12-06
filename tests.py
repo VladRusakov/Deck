@@ -2,6 +2,7 @@ from card import Card
 from deck import Deck
 import unittest
 
+
 class CardTests(unittest.TestCase):
     cards = [
         ([], "пик", TypeError),
@@ -31,99 +32,90 @@ class CardTests(unittest.TestCase):
             else:
                 self.assertEqual(string, str(Card(value, suit)))
 
+
 class DeckTests(unittest.TestCase):
 
-    "amount() should correctly display number of cards in a deck after its creating"
-    def test_amount_start(self):
+    def test_len_start(self):
+        """amount() should correctly display number of cards 
+        in a deck after its creating"""
         deck = Deck()
-        self.assertEqual(36, deck.amount())
+        self.assertEqual(36, len(deck))
 
-
-    "amount() should correctly display number of cards while it's count changing"
-    def test_amount_with_draws(self):
+    def test_len_with_draws(self):
+        """amount() should correctly display number of cards 
+        while it's count changing"""
         deck = Deck()
         deck.draw()
         amount = 35
-        self.assertEqual(amount, deck.amount())
+        self.assertEqual(amount, len(deck))
         for i in range(1, 8):
             amount -= i
             deck.draw(i)
-            self.assertEqual(amount, deck.amount())
+            self.assertEqual(amount, len(deck))
 
-
-    "draw() should draw one card from deck if it possible, in another way returns waste deck"
     def test_draw_one(self):
+        """draw() should draw one card from deck if it possible,
+        in another way returns waste deck"""
         deck = Deck()
-        controlCards = deck.getCardsList().copy()
-        for i in range(1, 36):
+        controlCards = deck.get_cards()
+        for _ in range(len(deck)+4):
             draw = deck.draw()
-            self.assertEqual(draw.getCardsList(), controlList[:1])
+            self.assertEqual(draw.get_cards(), controlCards[:1])
+            controlCards = controlCards[1:]
+            self.assertEqual(deck.get_cards(), controlCards)
 
-            controlCards = controlList[1:]
-            self.assertEqual(deck.getCardsList(), controlCards)
-        
-        emptyDraw = deck.draw()
-        self.assertEqual(emptyDraw.getCardsList(), [])
-        self.assertEqual(deck.getCardsList(), [])
-
-
-    "draw(count) should draw several cards from deck if it possible, in another way returns waste deck"
-    def test_draw_few(self):
+    def test_draw_several(self):
+        """draw(count) should draw several cards from deck if 
+        it possible, in another way returns waste deck"""
         deck = Deck()
-        controlCards = deck.getCardsList().copy()
-        for i in range(1, 9):
+        controlCards = deck.get_cards()
+        for i in range(1, 10):
             draw = deck.draw(i)
-            self.assertEqual(draw.getCardsList(), controlList[:i])
+            self.assertEqual(draw.get_cards(), controlCards[:i])
+            controlCards = controlCards[i:]
+            self.assertEqual(deck.get_cards(), controlCards)
 
-            controlCards = controlList[i:]
-            self.assertEqual(deck.getCardsList(), controlCards)
-        
-        emptyDraw = deck.draw(5)
-        self.assertEqual(emptyDraw.getCardsList(), [])
-        self.assertEqual(deck.getCardsList(), [])
-
-
-    "shuffle() should save amount of deck cards"
     def test_shuffle_amount(self):
+        "shuffle() should save amount of deck cards"
         deck = Deck()
-        amount = deck.amount()
+        amount = len(deck)
         deck.shuffle()
-        self.assertEquals(amount, deck.amount())
+        self.assertEquals(amount, len(deck))
 
-
-    "shuffle() should returns another cards order"
     def test_shuffle(self):
+        "shuffle() should returns another cards order"
         deck1 = Deck()
         deck2 = deck1.clone()
-        deck.shuffle()
+        deck1.shuffle()
         self.assertNotEquals(deck1, deck2)
 
     patternSolutions = [
         ("*к", ["6 пик",
-            "7 пик",
-            "8 пик",
-            "9 пик",
-            "10 пик",
-            "Валет пик",
-            "Дама пик",
-            "Король пик",
-            "Туз пик"]),
+                "7 пик",
+                "8 пик",
+                "9 пик",
+                "10 пик",
+                "Валет пик",
+                "Дама пик",
+                "Король пик",
+                "Туз пик"]),
 
         ("Т*", ["Туз пик",
-            "Туз червей",
-            "Туз бубен",
-            "Туз треф"]),
+                "Туз червей",
+                "Туз бубен",
+                "Туз треф"]),
 
         (r"%% *е%", ["10 червей",
-            "10 бубен",
-            "10 треф"])
+                     "10 бубен",
+                     "10 треф"])
     ]
 
-    "search(string) should find all cards that are fit the pattern"
     def test_search_by_pattern(self):
+        "search(string) should find all cards that are fit the pattern"
         deck = Deck()
         for pattern, result in self.patternSolutions:
-            self.assertEquals(result, deck.search(pattern).getCardsList())
+            self.assertEquals(result, deck.search(pattern))
+
 
 if __name__ == '__main__':
     unittest.main()
