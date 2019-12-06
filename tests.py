@@ -80,14 +80,14 @@ class DeckTests(unittest.TestCase):
         deck = Deck()
         amount = len(deck)
         deck.shuffle()
-        self.assertEquals(amount, len(deck))
+        self.assertEqual(amount, len(deck))
 
     def test_shuffle(self):
         "shuffle() should returns another cards order"
         deck1 = Deck()
         deck2 = deck1.clone()
         deck1.shuffle()
-        self.assertNotEquals(deck1, deck2)
+        self.assertNotEqual(deck1, deck2)
 
     patternSolutions = [
         ("*к", ["6 пик",
@@ -114,7 +114,7 @@ class DeckTests(unittest.TestCase):
         "search(string) should find all cards that are fit the pattern"
         deck = Deck()
         for pattern, result in self.patternSolutions:
-            self.assertEquals(result, deck.search(pattern))
+            self.assertEqual(result, deck.search(pattern))
 
 
 if __name__ == '__main__':
