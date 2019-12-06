@@ -27,4 +27,4 @@ pip  install unittest
 pip  install coverage
 ```
 # Покрытие
-![coverage](https://github.com/VladRusakov/Deck/image.png)
+![coverage](https://github.com/VladRusakov/Deck/coverage.png)
