@@ -26,3 +26,5 @@ pip  install unittest
 Для анализа покрытия coverage.
 pip  install coverage
 ```
+# Покрытие
+![coverage](https://github.com/VladRusakov/Deck/raw/master/image.png)
